@@ -14,13 +14,13 @@ async function getCustomerByIdDB(id) {
     return data;
 }
 
-async function createCustomerDB(name) {
+async function createCustomerDB(customerName) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const sql = `INSERT INTO customer (name)
+        const sql = `INSERT INTO customer (CUSTOMERNAME)
           VALUES ($1) RETURNING *`;
-        const data = (await client.query(sql, [name])).rows;
+        const data = (await client.query(sql, [customerName])).rows;
         await client.query('COMMIT');
         return data;
     } catch (error) {
@@ -30,13 +30,13 @@ async function createCustomerDB(name) {
     }
 }
 
-async function updateCustomerDB(id, name) {
+async function updateCustomerDB(id, customerName) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const sql = `UPDATE customer SET name=$1 WHERE id=$2 RETURNING*)
+        const sql = `UPDATE customer SET CUSTOMERNAME=$1 WHERE id=$2 RETURNING*)
           VALUES ($1) RETURNING *`;
-        const data = (await client.query(sql, [name, id])).rows;
+        const data = (await client.query(sql, [customerName, id])).rows;
         await client.query('COMMIT');
         return data;
     } catch (error) {

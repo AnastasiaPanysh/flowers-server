@@ -1,26 +1,26 @@
 const { pool } = require('../DB')
 
-async function getProductsDB() {
+async function getSaleDB() {
     const client = await pool.connect();
-    const sql = 'SELECT * FROM product';
+    const sql = 'SELECT * FROM sale';
     const data = (await client.query(sql)).rows;
     return data;
 }
 
-async function getProductByIdDB(id) {
+async function getSaleByIdDB(id) {
     const client = await pool.connect();
-    const sql = 'SELECT * FROM product WHERE id=$1';
+    const sql = 'SELECT * FROM sale WHERE id=$1';
     const data = (await client.query(sql, [id])).rows;
     return data;
 }
 
-async function createProductDB(provider_ID, price, productName) {
+async function createSaleDB(product_ID, customer_ID, amount, cost) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const sql = `INSERT INTO product (PROVIDER_ID, PRICE, PRODUCTNAME)
+        const sql = `INSERT INTO sale (PRODUCT_ID, CUSTOMER_ID, AMOUNT,PRODUCT_COST)
           VALUES ($1,$2,$3,$4) RETURNING *`;
-        const data = (await client.query(sql, [provider_ID, price, productName])).rows;
+        const data = (await client.query(sql, [product_ID, customer_ID, amount, cost])).rows;
         await client.query('COMMIT');
         return data;
     } catch (error) {
@@ -30,13 +30,13 @@ async function createProductDB(provider_ID, price, productName) {
     }
 }
 
-async function updateProductDB(id, provider_ID, price, productName) {
+async function updateSaleDB(id, product_ID, customer_ID, amount, cost) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const sql = `UPDATE product SET PROVIDER_ID=$1, PRICE=$2, PRODUCTNAME=$3
-            WHERE id=$4 RETURNING*)`;
-        const data = (await client.query(sql, [provider_ID, price, productName])).rows;
+        const sql = `UPDATE sale SET PRODUCT_ID=$1, CUSTOMER_ID=$2, AMOUNT=$3, PRODUCT_COST=$4
+            WHERE id=$5 RETURNING*)`;
+        const data = (await client.query(sql, [product_ID, customer_ID, amount, cost, id])).rows;
         await client.query('COMMIT');
         return data;
     } catch (error) {
@@ -46,4 +46,4 @@ async function updateProductDB(id, provider_ID, price, productName) {
     }
 }
 
-module.exports = { getProductsDB, getProductByIdDB, createProductDB, updateProductDB }
+module.exports = { getSaleDB, getSaleByIdDB, createSaleDB, updateSaleDB }

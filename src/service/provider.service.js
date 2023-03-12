@@ -12,14 +12,14 @@ async function getProviderById(id) {
     return provider
 }
 
-async function createProvider(name) {
-    const provider = await createProviderDB(name)
+async function createProvider(providerName) {
+    const provider = await createProviderDB(providerName)
     if (!provider.length) throw new Error('provider DB is empty')
     return provider
 }
 
-async function updateProvider(id, name) {
-    const provider = await updateProviderDB(id, name)
+async function updateProvider(id, providerName) {
+    const provider = await updateProviderDB(id, providerName)
     if (!provider.length) throw new Error('provider DB is empty')
     return provider
 }

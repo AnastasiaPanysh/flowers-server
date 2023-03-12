@@ -1,12 +1,12 @@
 const express = require('express')
-const { getProvider, getProviderById, createProvider, updateProvider } = require('../service/provider.service')
+const { getSale, getSaleById, createSale, updateSale } = require('../service/sale.service')
 const route = express.Router()
 
 
 route.get('/', async (req, res) => {
     try {
-        const provider = await getProvider()
-        res.status(200).send(provider)
+        const sale = await getSale()
+        res.status(200).send(sale)
     } catch (error) {
         res.status(404).send(error.message)
 
@@ -16,8 +16,8 @@ route.get('/', async (req, res) => {
 route.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const provider = await getProviderById(id)
-        res.status(200).send(provider)
+        const sale = await getSaleById(id)
+        res.status(200).send(sale)
     } catch (error) {
         res.status(404).send(error.message)
 
@@ -26,9 +26,9 @@ route.get('/:id', async (req, res) => {
 
 route.post('/', async (req, res) => {
     try {
-        const { providerName } = req.body;
-        const provider = await createProvider(providerName);
-        res.status(200).send(provider)
+        const { product_ID, customer_ID, amount, cost } = req.body;
+        const sale = await createSale(product_ID, customer_ID, amount, cost);
+        res.status(200).send(sale)
     } catch (error) {
         res.status(404).send(error.message)
     }
@@ -37,9 +37,9 @@ route.post('/', async (req, res) => {
 route.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { providerName } = req.body;
-        const provider = await updateProvider(providerName);
-        res.status(200).send(provider)
+        const { product_ID, customer_ID, amount, cost } = req.body;
+        const sale = await updateSale(id, product_ID, customer_ID, amount, cost);
+        res.status(200).send(sale)
     } catch (error) {
         res.status(404).send(error.message)
     }

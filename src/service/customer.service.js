@@ -12,14 +12,14 @@ async function getCustomerById(id) {
     return customer
 }
 
-async function createCustomer(name) {
-    const customer = await createCustomerDB(name)
+async function createCustomer(customerName) {
+    const customer = await createCustomerDB(customerName)
     if (!customer.length) throw new Error('customer DB is empty')
     return customer
 }
 
-async function updateCustomer(id, name) {
-    const customer = await updateCustomerDB(id, name)
+async function updateCustomer(id, customerName) {
+    const customer = await updateCustomerDB(id, customerName)
     if (!customer.length) throw new Error('customer DB is empty')
     return customer
 }

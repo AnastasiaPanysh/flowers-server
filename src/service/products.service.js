@@ -11,14 +11,14 @@ async function getProductById(id) {
     if (!products.length) throw new Error('products DB is empty')
     return products
 }
-async function createProduct(title, price) {
-    const products = await createProductDB(title, price)
+async function createProduct(provider_ID, price, productName) {
+    const products = await createProductDB(provider_ID, price, productName)
     if (!products.length) throw new Error('products DB is empty')
     return products
 }
 
-async function updateProduct(id, title, price) {
-    const products = await updateProductDB(id, title, price)
+async function updateProduct(id,provider_ID, price, productName) {
+    const products = await updateProductDB(id, provider_ID, price, productName)
     if (!products.length) throw new Error('products DB is empty')
     return products
 }
