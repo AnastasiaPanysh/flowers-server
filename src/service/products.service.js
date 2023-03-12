@@ -23,4 +23,4 @@ async function updateProduct(id, title, price) {
     return products
 }
 
-module.exports = { getProducts, getProductById, createProduct,updateProduct }
+module.exports = { getProducts, getProductById, createProduct, updateProduct }

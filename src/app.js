@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const products = require('./controller/products.controller')
+const provider = require('./controller/provider.controller')
 
 
 app.use((req, res, next) => {
@@ -14,6 +15,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/products', products)
+app.use('/provider', provider)
 
 app.use((error, req, res, next) => {
     res.status(500).send(error.message)

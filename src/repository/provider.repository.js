@@ -1,26 +1,26 @@
 const { pool } = require('../DB')
 
-async function getProductsDB() {
+async function getProviderDB() {
     const client = await pool.connect();
-    const sql = 'SELECT * FROM product';
+    const sql = 'SELECT * FROM provider';
     const data = (await client.query(sql)).rows;
     return data;
 }
 
-async function getProductByIdDB(id) {
+async function getProviderByIdDB(id) {
     const client = await pool.connect();
-    const sql = 'SELECT * FROM product WHERE id=$1';
+    const sql = 'SELECT * FROM provider WHERE id=$1';
     const data = (await client.query(sql, [id])).rows;
     return data;
 }
 
-async function createProductDB(title, price) {
+async function createProviderDB(name) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const sql = `INSERT INTO product (title,price)
-          VALUES ($1,$2) RETURNING *`;
-        const data = (await client.query(sql, [title, price])).rows;
+        const sql = `INSERT INTO provider (name)
+          VALUES ($1) RETURNING *`;
+        const data = (await client.query(sql, [name])).rows;
         await client.query('COMMIT');
         return data;
     } catch (error) {
@@ -30,13 +30,13 @@ async function createProductDB(title, price) {
     }
 }
 
-async function updateProductDB(id, title, price) {
+async function updateProviderDB(id, name) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const sql = `UPDATE product SET title=$1 ,price=$2 WHERE id=$3 RETURNING*)
-          VALUES ($1,$2) RETURNING *`;
-        const data = (await client.query(sql, [title, price, id])).rows;
+        const sql = `UPDATE provider SET name=$1 WHERE id=$2 RETURNING*)
+          VALUES ($1) RETURNING *`;
+        const data = (await client.query(sql, [name, id])).rows;
         await client.query('COMMIT');
         return data;
     } catch (error) {
@@ -46,4 +46,4 @@ async function updateProductDB(id, title, price) {
     }
 }
 
-module.exports = { getProductsDB, getProductByIdDB, createProductDB, updateProductDB }
+module.exports = { getProviderDB, getProviderByIdDB, createProviderDB, updateProviderDB }
