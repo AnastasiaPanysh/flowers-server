@@ -34,8 +34,7 @@ async function updateCustomerDB(id, customerName) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const sql = `UPDATE customer SET CUSTOMERNAME=$1 WHERE id=$2 RETURNING*)
-          VALUES ($1) RETURNING *`;
+        const sql = `UPDATE customer SET CUSTOMERNAME=$1 WHERE id=$2 RETURNING*)`;
         const data = (await client.query(sql, [customerName, id])).rows;
         await client.query('COMMIT');
         return data;
@@ -46,4 +45,19 @@ async function updateCustomerDB(id, customerName) {
     }
 }
 
-module.exports = { getCustomerDB, getCustomerByIdDB, createCustomerDB, updateCustomerDB }
+async function deleteCustomerDB(id) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const sql = `DELETE FROM customer WHERE id=$1 RETURNING *`;
+        const data = (await client.query(sql, [id])).rows;
+        await client.query('COMMIT');
+        return data;
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.log(error);
+        return [];
+    }
+}
+
+module.exports = { getCustomerDB, getCustomerByIdDB, createCustomerDB, updateCustomerDB, deleteCustomerDB }

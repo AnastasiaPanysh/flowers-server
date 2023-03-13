@@ -1,4 +1,4 @@
-const { getProviderDB, getProviderByIdDB, createProviderDB, updateProviderDB } = require('../repository/provider.repository')
+const { getProviderDB, getProviderByIdDB, createProviderDB, updateProviderDB,deleteProviderDB } = require('../repository/provider.repository')
 
 async function getProvider() {
     const provider = await getProviderDB()
@@ -24,4 +24,10 @@ async function updateProvider(id, providerName) {
     return provider
 }
 
-module.exports = { getProvider, getProviderById, createProvider, updateProvider }
+async function deleteProvider(id) {
+    const provider = await deleteProviderDB(id)
+    if (!provider.length) throw new Error('provider DB is empty')
+    return provider
+}
+
+module.exports = { getProvider, getProviderById, createProvider, updateProvider,deleteProvider }

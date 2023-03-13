@@ -1,5 +1,5 @@
 const express = require('express')
-const { getProvider, getProviderById, createProvider, updateProvider } = require('../service/provider.service')
+const { getProvider, getProviderById, createProvider, updateProvider,deleteProvider } = require('../service/provider.service')
 const route = express.Router()
 
 
@@ -45,6 +45,15 @@ route.put('/:id', async (req, res) => {
     }
 });
 
+route.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const provider = await deleteProvider(id)
+        res.status(200).send(provider)
+    } catch (error) {
+        res.status(404).send(error.message)
 
+    }
+})
 
 module.exports = route;

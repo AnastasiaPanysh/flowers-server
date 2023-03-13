@@ -46,4 +46,19 @@ async function updateProviderDB(id, providerName) {
     }
 }
 
-module.exports = { getProviderDB, getProviderByIdDB, createProviderDB, updateProviderDB }
+async function deleteProviderDB(id) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const sql = `DELETE FROM provider WHERE id=$1 RETURNING *`;
+        const data = (await client.query(sql, [id])).rows;
+        await client.query('COMMIT');
+        return data;
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.log(error);
+        return [];
+    }
+}
+
+module.exports = { getProviderDB, getProviderByIdDB, createProviderDB, updateProviderDB, deleteProviderDB }
