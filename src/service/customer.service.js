@@ -1,4 +1,4 @@
-const { getCustomerDB, getCustomerByIdDB, createCustomerDB, updateCustomerDB } = require('../repository/customer.repository')
+const { getCustomerDB, getCustomerByIdDB, createCustomerDB, updateCustomerDB,deleteCustomerDB } = require('../repository/customer.repository')
 
 async function getCustomer() {
     const customer = await getCustomerDB()
@@ -24,4 +24,10 @@ async function updateCustomer(id, customerName) {
     return customer
 }
 
-module.exports = {  getCustomer, getCustomerById, createCustomer, updateCustomer  }
+async function deleteCustomer(id) {
+    const customer = await deleteCustomerDB(id)
+    if (!customer.length) throw new Error('customer DB is empty')
+    return customer
+}
+
+module.exports = {  getCustomer, getCustomerById, createCustomer, updateCustomer,deleteCustomer  }

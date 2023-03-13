@@ -1,4 +1,4 @@
-const { getProductsDB, getProductByIdDB, createProductDB, updateProductDB } = require('../repository/products.repository')
+const { getProductsDB, getProductByIdDB, createProductDB, updateProductDB, deleteProductDB } = require('../repository/products.repository')
 
 async function getProducts() {
     const products = await getProductsDB()
@@ -17,10 +17,16 @@ async function createProduct(provider_ID, price, productName) {
     return products
 }
 
-async function updateProduct(id,provider_ID, price, productName) {
+async function updateProduct(id, provider_ID, price, productName) {
     const products = await updateProductDB(id, provider_ID, price, productName)
     if (!products.length) throw new Error('products DB is empty')
     return products
 }
 
-module.exports = { getProducts, getProductById, createProduct, updateProduct }
+async function deleteProduct(id) {
+    const products = await deleteProductDB(id)
+    if (!products.length) throw new Error('products DB is empty')
+    return products
+}
+
+module.exports = { getProducts, getProductById, createProduct, updateProduct, deleteProduct }
