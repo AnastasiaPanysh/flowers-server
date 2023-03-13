@@ -2,7 +2,10 @@ const { pool } = require('../DB')
 
 async function getSaleDB() {
     const client = await pool.connect();
-    const sql = 'SELECT * FROM sale';
+    const sql = `SELECT sale.ID, sale.AMOUNT, sale.PRODUCT_COST, customer.CUSTOMERNAME, product.PRODUCTNAME 
+    FROM sale 
+    JOIN customer ON customer.id=sale.CUSTOMER_ID
+    JOIN product ON product.id=sale.PRODUCT_ID;`
     const data = (await client.query(sql)).rows;
     return data;
 }
@@ -46,4 +49,19 @@ async function updateSaleDB(id, product_ID, customer_ID, amount, cost) {
     }
 }
 
-module.exports = { getSaleDB, getSaleByIdDB, createSaleDB, updateSaleDB }
+async function deleteSaleDB(id) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const sql = `DELETE FROM sale WHERE id=$1 RETURNING *`;
+        const data = (await client.query(sql, [id])).rows;
+        await client.query('COMMIT');
+        return data;
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.log(error);
+        return [];
+    }
+}
+
+module.exports = { getSaleDB, getSaleByIdDB, createSaleDB, updateSaleDB, deleteSaleDB }
