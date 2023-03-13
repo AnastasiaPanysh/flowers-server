@@ -1,4 +1,4 @@
-const { getSaleDB, getSaleByIdDB, createSaleDB, updateSaleDB } = require('../repository/sale.repository')
+const { getSaleDB, getSaleByIdDB, createSaleDB, updateSaleDB, deleteSaleDB } = require('../repository/sale.repository')
 
 async function getSale() {
     const sale = await getSaleDB()
@@ -22,5 +22,10 @@ async function updateSale(id, product_ID, customer_ID, amount, cost) {
     if (!sale.length) throw new Error('sale DB is empty')
     return sale
 }
+async function deleteSale(id) {
+    const sale = await deleteSaleDB(id)
+    if (!sale.length) throw new Error('sale DB is empty')
+    return sale
+}
 
-module.exports = { getSale, getSaleById, createSale, updateSale }
+module.exports = { getSale, getSaleById, createSale, updateSale, deleteSale }
