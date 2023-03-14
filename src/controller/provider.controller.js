@@ -26,8 +26,8 @@ route.get('/:id', async (req, res) => {
 
 route.post('/', async (req, res) => {
     try {
-        const { providerName } = req.body;
-        const provider = await createProvider(providerName);
+        const { providername } = req.body;
+        const provider = await createProvider(providername);
         res.status(200).send(provider)
     } catch (error) {
         res.status(404).send(error.message)

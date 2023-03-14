@@ -2,7 +2,7 @@ const { pool } = require('../DB')
 
 async function getSaleDB() {
     const client = await pool.connect();
-    const sql = `SELECT sale.ID, sale.AMOUNT, sale.PRODUCT_COST, customer.CUSTOMERNAME, product.PRODUCTNAME 
+    const sql = `SELECT sale.ID, sale.AMOUNT, sale.PRODUCT_COST, customer.CUSTOMERNAME, sale.CUSTOMER_ID, sale.PRODUCT_ID product.PRODUCTNAME 
     FROM sale 
     JOIN customer ON customer.id=sale.CUSTOMER_ID
     JOIN product ON product.id=sale.PRODUCT_ID;`
