@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use('/products', products)
+app.use('/product', products)
 app.use('/provider', provider)
 app.use('/customer', customer)
 app.use('/sale', sale)
