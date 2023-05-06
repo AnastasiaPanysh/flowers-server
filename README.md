@@ -1,5 +1,4 @@
 # flowers-server
-# server-mongo
 
 This is a simple Express.js server application with a PostgreSQL.
 
